@@ -8,10 +8,6 @@ function line()
 
 echo "------------  SCRIPT RUN STARTED -----------------------"
 
-if [ `which docker | wc -l` -ne 1 ]; then curl -fsSL https://get.docker.com -o get-docker.sh; fi
-line
-if [ `which git | wc -l` -ne 1 ]; then apt install -y git; fi
-
 path=/mnt/ext-ssd/downloads
 base=/home/pi/docker
 ssd_uuid=aa1c7418-b69d-d801-a018-7418b69dd801
@@ -19,7 +15,15 @@ ssd_uuid=aa1c7418-b69d-d801-a018-7418b69dd801
 mkdir -p /mnt/ext-ssd/downloads
 mkdir -p /home/pi/docker
 
-line
+if [ `which docker | wc -l` -ne 1 ]
+then
+   curl -fsSL https://get.docker.com -o ${base}/get-docker.sh
+   chmod +x ${base}/get-docker.sh
+   ./${base}/get-docker.sh
+   line
+fi
+if [ `which git | wc -l` -ne 1 ]; then apt install -y git; line; fi
+
 echo "UUID=${ssd_uuid} /mnt/ext-ssd  ext4  defaults 0 2" | tee -a /etc/fstab
 
 line
