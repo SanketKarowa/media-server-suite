@@ -19,7 +19,7 @@ if [ `which docker | wc -l` -ne 1 ]
 then
    curl -fsSL https://get.docker.com -o ${base}/get-docker.sh
    chmod +x ${base}/get-docker.sh
-   ./${base}/get-docker.sh
+   ${base}/get-docker.sh
    line
 fi
 if [ `which git | wc -l` -ne 1 ]; then apt install -y git; line; fi
