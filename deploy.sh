@@ -171,4 +171,20 @@ docker run -d \
 ngrok/ngrok:alpine start --all
 
 line
+
+docker run -d \
+    --name watchtower \
+    --restart=unless-stopped \
+    --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
+    -e WATCHTOWER_CLEANUP=true \
+    -e WATCHTOWER_REMOVE_VOLUMES=true \
+    -e WATCHTOWER_INCLUDE_RESTARTING=true \
+    -e WATCHTOWER_INCLUDE_STOPPED=true \
+    -e WATCHTOWER_REVIVE_STOPPED=true \
+    -e WATCHTOWER_ROLLING_RESTART=true \
+    -e WATCHTOWER_LABEL_ENABLE=true \
+    -u 0:0 \
+    containrrr/watchtower:latest
+
+line
 echo "------------  SCRIPT RUN COMPLETED -----------------------\nPlease reboot"
