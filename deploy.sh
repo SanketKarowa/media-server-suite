@@ -110,6 +110,9 @@ filebrowser/filebrowser:s6
 
 line
 
+wget -qO ${base}/qBittorrent.conf "https://raw.githubusercontent.com/SanketKarowa/media-server-suite/master/volumes/qbittorrent/config/qBittorrent.conf"
+chmod 777 ${base}/qBittorrent.conf
+
 docker run -d \
 --name=qbittorrent \
 --label com.centurylinklabs.watchtower.enable=true \
@@ -121,6 +124,7 @@ docker run -d \
 -p 6881:6881/udp \
 -p 8020:8080 \
 -v qbittorrent_config:/config \
+--mount type=bind,source=${base}/qBittorrent.conf,target=/config/qBittorrent/qBittorrent.conf \
 --mount type=bind,source=${path},target=/downloads \
 lscr.io/linuxserver/qbittorrent:latest
 
@@ -187,4 +191,4 @@ docker run -d \
     containrrr/watchtower:latest
 
 line
-echo "------------  SCRIPT RUN COMPLETED -----------------------\nPlease reboot"
+echo -e "------------  SCRIPT RUN COMPLETED -----------------------\nPlease reboot"
