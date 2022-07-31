@@ -30,7 +30,8 @@ line
 wget -qO $base/start.sh "https://raw.githubusercontent.com/SanketKarowa/media-server-suite/master/start.sh"
 chmod 777 $base/start.sh
 
-{ crontab -l -u root; echo '@reboot '${base}/start.sh; } | crontab -u root -
+BC=`crontab -u root -l | wc -l`
+echo '@reboot '${base}/start.sh | crontab -u root -
 
 line
 
@@ -191,4 +192,5 @@ docker run -d \
     containrrr/watchtower:latest
 
 line
+if [ `crontab -u root -l | wc -l` -eq $BC ]; then echo -e "Unable to add entry in crontab, add this manually:\n"; echo '@reboot '${base}/start.sh; line; fi
 echo -e "------------  SCRIPT RUN COMPLETED -----------------------\nPlease reboot"
