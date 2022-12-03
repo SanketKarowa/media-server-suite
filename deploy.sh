@@ -45,7 +45,7 @@ line
 git clone -b dev https://github.com/sachinOraon/QBittorrentBot.git $BASE_PATH/qbot
 cd $BASE_PATH/qbot
 sed -i 's/AUTHORIZED_IDS = \[\]/AUTHORIZED_IDS = \[227723943,1072139158\]/' $BASE_PATH/qbot/config.py
-docker build -t qbot:BASE_PATH .
+docker build -t qbot:base .
 
 line
 
@@ -73,6 +73,8 @@ docker run -d \
     -u 0:0 \
     --mount type=bind,source=${BASE_PATH}/qbot,target=/usr/src/app \
     --mount type=bind,source=${DL_PATH},target=/mnt/downloads \
+    --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
+    -e DOWNLOAD_PATH=${DL_PATH} \
     -e qbIp=127.0.0.1 \
     -e qbPort=8020 \
     -e qbUser=admin \
@@ -83,7 +85,7 @@ docker run -d \
     -e ARIA_IP=127.0.0.1 \
     -e ARIA_PORT=8050 \
     -e ARIA_RPC_TOKEN=scaria \
-    qbot:BASE_PATH
+    qbot:base
 
 line
 
