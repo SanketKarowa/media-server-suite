@@ -35,7 +35,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-LAST_ONLINE_AT = None
+LAST_ONLINE_AT = datetime.now(pytz.timezone('Asia/Kolkata'))
 TEST_API = "https://ipapi.co/json"
 
 
@@ -65,7 +65,7 @@ def check_and_reboot() -> None:
         req.close()
     except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
         logger.error(f"Failed to send request [{e.__class__.__name__}]")
-    if LAST_ONLINE_AT is not None and (current_time - LAST_ONLINE_AT).total_seconds() >= 600:
+    if (current_time - LAST_ONLINE_AT).total_seconds() >= 600:
         logger.warning("System seems offline for 10 mins, rebooting...")
         reboot()
 
